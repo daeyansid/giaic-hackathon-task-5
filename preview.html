@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <link rel="stylesheet" href="preview-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="resume-container">
+        <div class="resume-header">
+            <div class="profile-section">
+                <div class="profile-image">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h1 id="previewName"></h1>
+                    <div class="contact-info">
+                        <span><i class="fas fa-envelope"></i> <span id="previewEmail"></span></span>
+                        <span><i class="fas fa-phone"></i> <span id="previewPhone"></span></span>
+                        <span><i class="fas fa-map-marker-alt"></i> <span id="previewAddress"></span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-body">
+            <div class="resume-section">
+                <div class="section-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h2>Education</h2>
+                </div>
+                <div id="previewEducation" class="education-grid"></div>
+            </div>
+
+            <div class="resume-section">
+                <div class="section-header">
+                    <i class="fas fa-briefcase"></i>
+                    <h2>Experience</h2>
+                </div>
+                <div id="previewExperience" class="experience-timeline"></div>
+            </div>
+
+            <div class="resume-section">
+                <div class="section-header">
+                    <i class="fas fa-tools"></i>
+                    <h2>Skills</h2>
+                </div>
+                <div id="previewSkills" class="skills-container"></div>
+            </div>
+        </div>
+
+        <div class="resume-actions">
+            <button onclick="window.print()" class="print-btn">
+                <i class="fas fa-print"></i> Print Resume
+            </button>
+        </div>
+    </div>
+    <script src="preview.js"></script>
+</body>
+</html>

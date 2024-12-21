@@ -1,0 +1,278 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #1e40af;
+    --text-color: #1f2937;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.resume-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.resume-header {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-image {
+    font-size: 5rem;
+    color: var(--primary-color);
+}
+
+.profile-info h1 {
+    font-size: 2.5rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.contact-info span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+}
+
+.resume-section {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+}
+
+.education-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.education-item {
+    background: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+}
+
+.education-item:hover {
+    transform: translateY(-4px);
+}
+
+.experience-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.experience-item {
+    background: var(--bg-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.skill-item {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.resume-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.print-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.print-btn:hover {
+    background: var(--secondary-color);
+}
+
+@media print {
+    /* Reset page margins */
+    @page {
+        margin: 0.5cm;
+        size: A4;
+    }
+
+    body {
+        background: white;
+        font-size: 12px; /* Reduce base font size for print */
+    }
+    
+    .resume-container {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    .resume-actions {
+        display: none;
+    }
+    
+    .resume-section {
+        break-inside: avoid;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: none;
+    }
+
+    .resume-header {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: none;
+    }
+
+    .profile-info h1 {
+        font-size: 24px;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 18px;
+    }
+
+    .profile-image {
+        font-size: 3rem;
+    }
+
+    .education-grid {
+        gap: 0.5rem;
+    }
+
+    .education-item, .experience-item {
+        padding: 0.75rem;
+    }
+
+    .skill-item {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    /* Ensure content fits on one page */
+    .resume-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    /* Remove decorative elements */
+    .resume-section, .resume-header {
+        border-radius: 0;
+        background: none;
+    }
+
+    /* Optimize spacing */
+    .contact-info {
+        gap: 1rem;
+    }
+
+    /* Ensure text remains readable */
+    * {
+        color: black !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .resume-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .profile-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .contact-info {
+        justify-content: center;
+    }
+
+    .education-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-info h1 {
+        font-size: 2rem;
+    }
+
+    .contact-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .resume-section {
+        padding: 1.5rem;
+    }
+    .previewAddress{
+        white-space: nowrap;
+    }
+}

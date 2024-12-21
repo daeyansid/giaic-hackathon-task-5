@@ -1,5 +1,5 @@
-class ResumeBuilder {
-    constructor() {
+var ResumeBuilder = /** @class */ (function () {
+    function ResumeBuilder() {
         this.educationList = [];
         this.experienceList = [];
         this.skills = [];
@@ -9,227 +9,221 @@ class ResumeBuilder {
         this.loadSavedData();
         this.initializeNavigation();
     }
-    initializeEventListeners() {
+    ResumeBuilder.prototype.initializeEventListeners = function () {
+        var _this = this;
         var _a, _b, _c, _d, _e;
-        (_a = document.getElementById('addEducation')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', () => this.addEducation());
-        (_b = document.getElementById('addExperience')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', () => this.addExperience());
-        (_c = document.getElementById('addSkill')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', () => this.addSkill());
-        (_d = document.getElementById('saveBtn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', () => this.saveResume());
-        (_e = document.getElementById('printBtn')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', () => this.printResume());
-    }
-    toggleFormFields(disable) {
+        (_a = document.getElementById('addEducation')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', function () { return _this.addEducation(); });
+        (_b = document.getElementById('addExperience')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', function () { return _this.addExperience(); });
+        (_c = document.getElementById('addSkill')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', function () { return _this.addSkill(); });
+        (_d = document.getElementById('saveBtn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function () { return _this.saveResume(); });
+        (_e = document.getElementById('printBtn')) === null || _e === void 0 ? void 0 : _e.addEventListener('click', function () { return _this.printResume(); });
+    };
+    ResumeBuilder.prototype.toggleFormFields = function (disable) {
         // Disable all input fields
-        const inputs = document.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
+        var inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(function (input) {
             input.disabled = disable;
         });
         // Disable all buttons except Save and Print
-        const buttons = document.querySelectorAll('button:not(#saveBtn):not(#printBtn)');
-        buttons.forEach(button => {
+        var buttons = document.querySelectorAll('button:not(#saveBtn):not(#printBtn)');
+        buttons.forEach(function (button) {
             button.disabled = disable;
         });
         // Visual feedback
         if (disable) {
             document.body.classList.add('form-locked');
-            const saveBtn = document.getElementById('saveBtn');
+            var saveBtn = document.getElementById('saveBtn');
             saveBtn.innerHTML = '<i class="fas fa-lock"></i> Unlock Form';
             saveBtn.classList.add('unlock-btn');
         }
         else {
             document.body.classList.remove('form-locked');
-            const saveBtn = document.getElementById('saveBtn');
+            var saveBtn = document.getElementById('saveBtn');
             saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Resume';
             saveBtn.classList.remove('unlock-btn');
         }
-    }
-    addEducation() {
-        const educationList = document.getElementById('educationList');
-        const educationDiv = document.createElement('div');
+    };
+    ResumeBuilder.prototype.addEducation = function () {
+        var educationList = document.getElementById('educationList');
+        var educationDiv = document.createElement('div');
         educationDiv.className = 'education-item';
-        educationDiv.innerHTML = `
-            <input type="text" placeholder="School Name">
-            <input type="text" placeholder="Degree">
-            <input type="text" placeholder="Year">
-            <button onclick="this.parentElement.remove()">Remove</button>
-        `;
+        educationDiv.innerHTML = "\n            <input type=\"text\" placeholder=\"School Name\" class=\"school\">\n            <input type=\"text\" placeholder=\"Degree\" class=\"degree\">\n            <input type=\"text\" placeholder=\"Year\" class=\"year\">\n            <button onclick=\"this.parentElement.remove()\">Remove</button>\n        ";
         educationList === null || educationList === void 0 ? void 0 : educationList.appendChild(educationDiv);
-    }
-    addExperience() {
-        const experienceList = document.getElementById('experienceList');
-        const experienceDiv = document.createElement('div');
+    };
+    ResumeBuilder.prototype.addExperience = function () {
+        var experienceList = document.getElementById('experienceList');
+        var experienceDiv = document.createElement('div');
         experienceDiv.className = 'experience-item';
-        experienceDiv.innerHTML = `
-            <input type="text" placeholder="Company">
-            <input type="text" placeholder="Position">
-            <input type="text" placeholder="Duration">
-            <textarea placeholder="Description"></textarea>
-            <button onclick="this.parentElement.remove()">Remove</button>
-        `;
+        experienceDiv.innerHTML = "\n            <input type=\"text\" placeholder=\"Company\" class=\"company\">\n            <input type=\"text\" placeholder=\"Position\" class=\"position\">\n            <input type=\"text\" placeholder=\"Duration\" class=\"duration\">\n            <textarea placeholder=\"Description\" class=\"description\"></textarea>\n            <button onclick=\"this.parentElement.remove()\">Remove</button>\n        ";
         experienceList === null || experienceList === void 0 ? void 0 : experienceList.appendChild(experienceDiv);
-    }
-    addSkill() {
-        const skillInput = document.getElementById('skillInput');
-        const skillsList = document.getElementById('skillsList');
+    };
+    ResumeBuilder.prototype.addSkill = function () {
+        var skillInput = document.getElementById('skillInput');
+        var skillsList = document.getElementById('skillsList');
         if (skillInput.value.trim()) {
-            const skillDiv = document.createElement('div');
-            skillDiv.className = 'skill-item';
-            skillDiv.textContent = skillInput.value;
-            skillDiv.onclick = () => skillDiv.remove();
-            skillsList === null || skillsList === void 0 ? void 0 : skillsList.appendChild(skillDiv);
+            var skillDiv_1 = document.createElement('div');
+            skillDiv_1.className = 'skill-item';
+            skillDiv_1.textContent = skillInput.value;
+            skillDiv_1.onclick = function () { return skillDiv_1.remove(); };
+            skillsList === null || skillsList === void 0 ? void 0 : skillsList.appendChild(skillDiv_1);
             this.skills.push(skillInput.value);
             skillInput.value = '';
         }
-    }
-    saveResume() {
+    };
+    ResumeBuilder.prototype.saveResume = function () {
         this.isFormLocked = !this.isFormLocked;
         this.toggleFormFields(this.isFormLocked);
         if (this.isFormLocked) {
-            const personalInfo = {
+            // Collect Personal Info
+            var personalInfo = {
                 fullName: document.getElementById('fullName').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 address: document.getElementById('address').value
             };
-            localStorage.setItem('resumeData', JSON.stringify({
-                personalInfo,
+            // Collect Education Data
+            this.educationList = Array.from(document.querySelectorAll('.education-item')).map(function (item) { return ({
+                school: item.querySelector('.school').value,
+                degree: item.querySelector('.degree').value,
+                year: item.querySelector('.year').value
+            }); });
+            // Collect Experience Data
+            this.experienceList = Array.from(document.querySelectorAll('.experience-item')).map(function (item) { return ({
+                company: item.querySelector('.company').value,
+                position: item.querySelector('.position').value,
+                duration: item.querySelector('.duration').value,
+                description: item.querySelector('.description').value
+            }); });
+            // Save all data to localStorage
+            var resumeData = {
+                personalInfo: personalInfo,
                 education: this.educationList,
                 experience: this.experienceList,
                 skills: this.skills
-            }));
+            };
+            localStorage.setItem('resumeData', JSON.stringify(resumeData));
+            // Generate URL-friendly name
+            var formattedName = personalInfo.fullName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            var previewUrl = "preview.html?name=".concat(formattedName);
+            // Open the preview page in a new tab
+            window.open(previewUrl, '_blank');
             // Show success message
-            const toast = document.createElement('div');
-            toast.className = 'toast success';
-            toast.innerHTML = '<i class="fas fa-check-circle"></i> Resume saved successfully!';
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            var toast_1 = document.createElement('div');
+            toast_1.className = 'toast success';
+            toast_1.innerHTML = '<i class="fas fa-check-circle"></i> Resume saved successfully!';
+            document.body.appendChild(toast_1);
+            setTimeout(function () { return toast_1.remove(); }, 3000);
         }
-    }
-    loadSavedData() {
-        const savedData = localStorage.getItem('resumeData');
+    };
+    ResumeBuilder.prototype.loadSavedData = function () {
+        var _this = this;
+        var savedData = localStorage.getItem('resumeData');
         if (savedData) {
-            const data = JSON.parse(savedData);
-            // Populate fields with saved data
-            Object.entries(data.personalInfo).forEach(([key, value]) => {
-                const element = document.getElementById(key);
+            var data = JSON.parse(savedData);
+            // Populate Personal Info
+            Object.entries(data.personalInfo).forEach(function (_a) {
+                var key = _a[0], value = _a[1];
+                var element = document.getElementById(key);
                 if (element)
                     element.value = value;
             });
-            // Load other sections...
+            // Populate Education
+            data.education.forEach(function (edu) {
+                _this.addEducation();
+                var educationItem = document.querySelectorAll('.education-item');
+                var lastItem = educationItem[educationItem.length - 1];
+                lastItem.querySelector('.school').value = edu.school;
+                lastItem.querySelector('.degree').value = edu.degree;
+                lastItem.querySelector('.year').value = edu.year;
+            });
+            // Populate Experience
+            data.experience.forEach(function (exp) {
+                _this.addExperience();
+                var experienceItem = document.querySelectorAll('.experience-item');
+                var lastItem = experienceItem[experienceItem.length - 1];
+                lastItem.querySelector('.company').value = exp.company;
+                lastItem.querySelector('.position').value = exp.position;
+                lastItem.querySelector('.duration').value = exp.duration;
+                lastItem.querySelector('.description').value = exp.description;
+            });
+            // Populate Skills
+            this.skills = data.skills || [];
+            var skillsList_1 = document.getElementById('skillsList');
+            this.skills.forEach(function (skill) {
+                var skillDiv = document.createElement('div');
+                skillDiv.className = 'skill-item';
+                skillDiv.textContent = skill;
+                skillDiv.onclick = function () { return skillDiv.remove(); };
+                skillsList_1 === null || skillsList_1 === void 0 ? void 0 : skillsList_1.appendChild(skillDiv);
+            });
         }
-    }
-    printResume() {
+    };
+    ResumeBuilder.prototype.printResume = function () {
         window.print();
-    }
-    initializeNavigation() {
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                const section = e.currentTarget.dataset.section;
+    };
+    ResumeBuilder.prototype.initializeNavigation = function () {
+        var _this = this;
+        var navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                var section = e.currentTarget.dataset.section;
                 if (section) {
-                    this.navigateToSection(section);
+                    _this.navigateToSection(section);
                 }
             });
         });
         // Monitor scroll for section highlighting
         document.addEventListener('scroll', this.handleScroll.bind(this));
-    }
-    navigateToSection(sectionId) {
+    };
+    ResumeBuilder.prototype.navigateToSection = function (sectionId) {
         // Remove active class from all nav items
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav-item').forEach(function (item) {
             item.classList.remove('active');
         });
         // Add active class to clicked nav item
-        const navItem = document.querySelector(`[data-section="${sectionId}"]`);
+        var navItem = document.querySelector("[data-section=\"".concat(sectionId, "\"]"));
         navItem === null || navItem === void 0 ? void 0 : navItem.classList.add('active');
         // Scroll to section
-        const section = document.getElementById(sectionId);
+        var section = document.getElementById(sectionId);
         if (section) {
             section.scrollIntoView({ behavior: 'smooth' });
         }
         this.currentSection = sectionId;
         this.updateProgress();
-    }
-    handleScroll() {
-        const sections = document.querySelectorAll('.section');
-        const scrollPosition = window.scrollY;
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
+    };
+    ResumeBuilder.prototype.handleScroll = function () {
+        var _this = this;
+        var sections = document.querySelectorAll('.section');
+        var scrollPosition = window.scrollY;
+        sections.forEach(function (section) {
+            var sectionTop = section.offsetTop;
+            var sectionHeight = section.clientHeight;
             if (scrollPosition >= sectionTop - 100 &&
                 scrollPosition < sectionTop + sectionHeight - 100) {
-                const sectionId = section.id;
-                this.highlightNavItem(sectionId);
+                var sectionId = section.id;
+                _this.highlightNavItem(sectionId);
             }
         });
-    }
-    highlightNavItem(sectionId) {
-        document.querySelectorAll('.nav-item').forEach(item => {
+    };
+    ResumeBuilder.prototype.highlightNavItem = function (sectionId) {
+        document.querySelectorAll('.nav-item').forEach(function (item) {
             item.classList.remove('active');
         });
-        const activeNav = document.querySelector(`[data-section="${sectionId}"]`);
+        var activeNav = document.querySelector("[data-section=\"".concat(sectionId, "\"]"));
         activeNav === null || activeNav === void 0 ? void 0 : activeNav.classList.add('active');
-    }
-    updateProgress() {
-        const sections = ['personalInfo', 'education', 'experience', 'skills'];
-        const currentIndex = sections.indexOf(this.currentSection);
-        const progress = ((currentIndex + 1) / sections.length) * 100;
-        const progressBar = document.getElementById('progressBar');
+    };
+    ResumeBuilder.prototype.updateProgress = function () {
+        var sections = ['personalInfo', 'education', 'experience', 'skills'];
+        var currentIndex = sections.indexOf(this.currentSection);
+        var progress = ((currentIndex + 1) / sections.length) * 100;
+        var progressBar = document.getElementById('progressBar');
         if (progressBar) {
-            progressBar.style.width = `${progress}%`;
+            progressBar.style.width = "".concat(progress, "%");
         }
-    }
-}
+    };
+    return ResumeBuilder;
+}());
 // Initialize the resume builder
 new ResumeBuilder();
 // Add these styles to your CSS
-const styles = `
-.form-locked input:disabled,
-.form-locked textarea:disabled {
-    background-color: #f3f4f6;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.unlock-btn {
-    background-color: #dc2626 !important;
-}
-
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 24px;
-    border-radius: 8px;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s;
-}
-
-.toast.success {
-    background-color: #22c55e;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-`;
+var styles = "\n.form-locked input:disabled,\n.form-locked textarea:disabled {\n    background-color: #f3f4f6;\n    cursor: not-allowed;\n    opacity: 0.7;\n}\n\n.unlock-btn {\n    background-color: #dc2626 !important;\n}\n\n.toast {\n    position: fixed;\n    bottom: 20px;\n    right: 20px;\n    padding: 12px 24px;\n    border-radius: 8px;\n    color: white;\n    display: flex;\n    align-items: center;\n    gap: 8px;\n    animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s;\n}\n\n.toast.success {\n    background-color: #22c55e;\n}\n\n@keyframes slideIn {\n    from {\n        transform: translateX(100%);\n        opacity: 0;\n    }\n    to {\n        transform: translateX(0);\n        opacity: 1;\n    }\n}\n\n@keyframes slideOut {\n    from {\n        transform: translateX(0);\n        opacity: 1;\n    }\n    to {\n        transform: translateX(100%);\n        opacity: 0;\n    }\n}\n";

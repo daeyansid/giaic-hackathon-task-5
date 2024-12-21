@@ -65,9 +65,9 @@ class ResumeBuilder {
         const educationDiv = document.createElement('div');
         educationDiv.className = 'education-item';
         educationDiv.innerHTML = `
-            <input type="text" placeholder="School Name">
-            <input type="text" placeholder="Degree">
-            <input type="text" placeholder="Year">
+            <input type="text" placeholder="School Name" class="school">
+            <input type="text" placeholder="Degree" class="degree">
+            <input type="text" placeholder="Year" class="year">
             <button onclick="this.parentElement.remove()">Remove</button>
         `;
         educationList?.appendChild(educationDiv);
@@ -78,10 +78,10 @@ class ResumeBuilder {
         const experienceDiv = document.createElement('div');
         experienceDiv.className = 'experience-item';
         experienceDiv.innerHTML = `
-            <input type="text" placeholder="Company">
-            <input type="text" placeholder="Position">
-            <input type="text" placeholder="Duration">
-            <textarea placeholder="Description"></textarea>
+            <input type="text" placeholder="Company" class="company">
+            <input type="text" placeholder="Position" class="position">
+            <input type="text" placeholder="Duration" class="duration">
+            <textarea placeholder="Description" class="description"></textarea>
             <button onclick="this.parentElement.remove()">Remove</button>
         `;
         experienceList?.appendChild(experienceDiv);
@@ -105,22 +105,48 @@ class ResumeBuilder {
     private saveResume(): void {
         this.isFormLocked = !this.isFormLocked;
         this.toggleFormFields(this.isFormLocked);
-
+    
         if (this.isFormLocked) {
+            // Collect Personal Info
             const personalInfo = {
                 fullName: (document.getElementById('fullName') as HTMLInputElement).value,
                 email: (document.getElementById('email') as HTMLInputElement).value,
                 phone: (document.getElementById('phone') as HTMLInputElement).value,
                 address: (document.getElementById('address') as HTMLTextAreaElement).value
             };
-
-            localStorage.setItem('resumeData', JSON.stringify({
+    
+            // Collect Education Data
+            this.educationList = Array.from(document.querySelectorAll('.education-item')).map((item) => ({
+                school: (item.querySelector('.school') as HTMLInputElement).value,
+                degree: (item.querySelector('.degree') as HTMLInputElement).value,
+                year: (item.querySelector('.year') as HTMLInputElement).value
+            }));
+    
+            // Collect Experience Data
+            this.experienceList = Array.from(document.querySelectorAll('.experience-item')).map((item) => ({
+                company: (item.querySelector('.company') as HTMLInputElement).value,
+                position: (item.querySelector('.position') as HTMLInputElement).value,
+                duration: (item.querySelector('.duration') as HTMLInputElement).value,
+                description: (item.querySelector('.description') as HTMLTextAreaElement).value
+            }));
+    
+            // Save all data to localStorage
+            const resumeData = {
                 personalInfo,
                 education: this.educationList,
                 experience: this.experienceList,
                 skills: this.skills
-            }));
-
+            };
+    
+            localStorage.setItem('resumeData', JSON.stringify(resumeData));
+    
+            // Generate URL-friendly name
+            const formattedName = personalInfo.fullName.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            const previewUrl = `preview.html?name=${formattedName}`;
+    
+            // Open the preview page in a new tab
+            window.open(previewUrl, '_blank');
+    
             // Show success message
             const toast = document.createElement('div');
             toast.className = 'toast success';
@@ -129,19 +155,54 @@ class ResumeBuilder {
             setTimeout(() => toast.remove(), 3000);
         }
     }
+    
+    
 
     private loadSavedData(): void {
         const savedData = localStorage.getItem('resumeData');
         if (savedData) {
             const data = JSON.parse(savedData);
-            // Populate fields with saved data
+    
+            // Populate Personal Info
             Object.entries(data.personalInfo).forEach(([key, value]) => {
                 const element = document.getElementById(key) as HTMLInputElement;
                 if (element) element.value = value as string;
             });
-            // Load other sections...
+    
+            // Populate Education
+            data.education.forEach((edu: Education) => {
+                this.addEducation();
+                const educationItem = document.querySelectorAll('.education-item');
+                const lastItem = educationItem[educationItem.length - 1];
+                (lastItem.querySelector('.school') as HTMLInputElement).value = edu.school;
+                (lastItem.querySelector('.degree') as HTMLInputElement).value = edu.degree;
+                (lastItem.querySelector('.year') as HTMLInputElement).value = edu.year;
+            });
+    
+            // Populate Experience
+            data.experience.forEach((exp: Experience) => {
+                this.addExperience();
+                const experienceItem = document.querySelectorAll('.experience-item');
+                const lastItem = experienceItem[experienceItem.length - 1];
+                (lastItem.querySelector('.company') as HTMLInputElement).value = exp.company;
+                (lastItem.querySelector('.position') as HTMLInputElement).value = exp.position;
+                (lastItem.querySelector('.duration') as HTMLInputElement).value = exp.duration;
+                (lastItem.querySelector('.description') as HTMLTextAreaElement).value = exp.description;
+            });
+    
+            // Populate Skills
+            this.skills = data.skills || [];
+            const skillsList = document.getElementById('skillsList');
+            this.skills.forEach((skill) => {
+                const skillDiv = document.createElement('div');
+                skillDiv.className = 'skill-item';
+                skillDiv.textContent = skill;
+                skillDiv.onclick = () => skillDiv.remove();
+                skillsList?.appendChild(skillDiv);
+            });
         }
     }
+    
 
     private printResume(): void {
         window.print();
